@@ -1,0 +1,14 @@
+{
+    "author"     : "Gong",
+    "module_name": "pecell",
+    "agent"      : {
+        "type"       : ["input", "output", "config"],
+        "inst_number": [2, 3, 1],
+        "to_scb"     : [false, true, false],
+        "to_ref_mdl" : [true, false, true],
+        "to_sbr"     : [true, false, true]
+    },
+    "ref_mdl_to_scb": 2,
+    "rtl_top_path"  : "../rtl/pe_cell.v",
+    "rtl_path"      : "../rtl"
+}

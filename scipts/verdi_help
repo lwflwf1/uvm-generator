@@ -1,0 +1,909 @@
+logDir = /home/gongyf/project/uvm_template/verdiLog
+
+Verdi Release Verdi3_I-2014.03 (RH Linux x86_64/64bit) 02/11/2014
+(C) 1999 - 2014 by Synopsys, Inc.
+All Rights Reserved.
+www.synopsys.com
+
+This program is proprietary and confidential information of Synopsys, Inc. and 
+may be used and disclosed only as authorized in a license agreement controlling 
+such use and disclosure.
+
+Licensed Products communicate with Synopsys servers for the purpose of providing
+software updates, detecting software piracy and verifying that customers are 
+using Licensed Products in conformity with the applicable License Key for such 
+Licensed Products. Synopsys will use information gathered in connection with 
+this process to deliver software updates and pursue software pirates and 
+infringers.
+
+Usage verdi: [Siloti Options] [General Options] [nTrace Options] [Simulator Options] [Environment Options] [Behavior Analysis Options] [Coverage Options]...
+[Siloti Options]
+
+OPTIONS
+    -DE [options] 
+                  Use the specified options to perform Data
+                  Expansion setup automatically after the design (-f
+                  or -lib) and simulation results (-ssf) are loaded.
+
+    -cr_slave "options"
+                  Open a slave process to load the gate design. 
+                  Options specified between the quotation marks are
+                  passed to the slave process.
+
+    -crdb_load crdbFile
+                  Specify the correlation database (CRDB) to load.
+
+    -de           Perform Data Expansion setup (auto time window
+                  mode) automatically after design and simulation
+                  results are loaded (-ssf).
+
+    -esAuto       Enable automatic Behavior Analysis and/or Data
+                  Expansion according to the Essential Signal Tag in
+                  FSDB.
+
+    -licsiloti    Checkout Siloti license first before Verdi or
+                  other available license.
+
+    -min          Iconify nTrace automatically after the program
+                  starts.
+
+    -noDE         Disable automatic Data Expansion setup.
+
+[General Options]
+
+OPTIONS
+    +disable_message+<message_serial_numbers|error|warning>
+                  Suppress the specified message(s), all error
+                  messages, or all warning messages. Use '+' for
+                  different message type combination.
+
+    +ignorefileext+<extension_name>
+                  Specify the file extension for ignore.
+
+    +rmkeyword+<keyword(s)>
+                  Downgrade the specified keyword(s) to
+                  identifier(s). One or more keywords may be
+                  specified.
+
+    +spiceExt+<extensionname>
+                  Used to specify the file extensions for HSpice
+                  files.This option is case insensitive, but the
+                  file extension is case sensitive.
+
+    -DEFPARAM <parameter_path>=<value>
+                  Change the specified parameter to the specified
+                  value.
+
+    -G<paramName>=<value>
+                  Override the parameter value in the design.
+
+    -L/-Lf        Specify the search library compiled with
+                  vericom.-Lf has higher priority than -L.
+
+    -ams          Support Verilog-ams syntax.
+
+    -assert checker|svaext|svvunit
+                  Specify the additional syntax to support.
+                  checker: Support the checker construct of
+                  SystemVerilog IEEE 1800-2009 standard.
+                  svaext: Support SystemVerilog Assertion features
+                  compliant to IEEE 1800-2009 standard.
+                  svvunit: Support PSL vunit syntax. Files with the
+                  *.psl file extension will be treated as PSL files.
+
+    -chmod <numeric_mode>
+                  Specify the access attribute for the generated
+                  files and directories.
+
+    -cuname <compilation-unit name>
+                  Support compilation-based compilation-unit mode
+                  with specific name. The global space will be
+                  modeled as a package named "compilation-unit
+                  name". It will be disabled if specified with
+                  -cunit.
+
+    -cunit        Support compilation-based compilation-unit mode
+                  with default name. The global space will be
+                  modeled as a package named "novas_cunit_n".
+
+    -dynaconfig filename
+                  Specify a VCS runtime configuration file to load.
+
+    -ecoScript scriptFile
+                  Execute an ECO script file in batch mode.
+
+    -errorstop redefined_module
+                  Stop parsing the remaining files when there is a
+                  redefined module.
+
+    -extractsamenet
+                  Extract same net when loading FSDB file.
+
+    -fixCellHier  
+                  Resolve the specified hierarchy in the library
+                  when importing the design.
+
+    -guiConf filename
+                  Specify the configuration file name to save the
+                  layout to and restore the layout from. 
+                  If not specified, the novas.conf configuration
+                  file in the working directory will be used.
+
+    -h            Print out this usage.
+
+    -help         Print out this usage.
+
+    -ignore <keyword_argument>
+                  Suppress error messages associated with the
+                  specified keyword argument.
+                  The following keywords are supported:
+                    driver_checks
+                      Suppress error messages about SystemVerilog
+                  driver checking.
+
+    -ignore_macro_redef
+                  Suppress warning messages for re-defined macro(s).
+
+    -ignorekwd_config
+                  Ignore the keyword of Verilog IEEE 1364-2001,
+                  "config".
+
+    -impConf      Specify a file to configure how undefined modules,
+                  virtual tops and partial loads are handled during
+                  design import. This option will not load a VHDL
+                  configuration file.
+
+    -lib libName  
+                  Specify library name.
+
+    -libcellfile file_name
+                  Specify the file which contains module/entity as
+                  library cell. The module/entity will be taken as
+                  library.
+
+    -licdebug     Dump license diagnostic information to the
+                  console. Only for license debugging.
+
+    -licverdi     Setup Verdi implied features. Always try Verdi
+                  license as a last resort.
+
+    -logdir logDirectory
+                  Specify the location of the log directory.
+
+    -logfile logFile
+                  Specify the location of the log directory/file.
+
+    -max_mtr_count value
+                  Specify the maximum thread count when running the
+                  multiple thread flow for FSDB file access. When
+                  the value is set to 1, the multiple thread flow is
+                  disabled. Valid values are 0 to 16.
+
+    -nclib        Run as NC library management scheme.
+
+    -netlistcom   
+                  Generate and save schematic library to disk.
+
+    -noinc        Suppress incremental loading.
+
+    -nologo       Suppress display of the Welcome page at startup.
+
+    -novasLibPaths filename(s)|pathName(s)
+                  Specify one or more symbol library paths or files
+                  containing the paths to all symbol libraries.
+
+    -novasLibs filename(s)|libName(s)
+                  Specify one or more symbol library names or files
+                  containing the names of all symbol libraries.
+
+    -parameters filename
+                  Specify the file containing a list of parameters
+                  to be changed to values.
+                  The file format is: assign <value>
+                  <parameter_path>.
+
+    -path pathName
+                  Specify design path for import design.
+
+    -play commandHistoryFile
+                  Play command history file.
+
+    -powerSymbol  
+                  Import power symbol information.
+
+    -preTitle prefix_title_name
+                  Specify the user defined title to add as a prefix
+                  for all Novas window banners.
+
+    -pvalue+<parameter_hierarchical_name>=<value>
+                  Change the specified parameter to the specified
+                  value.
+
+    -realport     Support only the "wreal" keyword in Verilog-AMS.
+
+    -recordhlc filename
+                  Records all hi-level commands to a file for
+                  playback.
+
+    -regf registerFile
+                  Load register restore file (*.register).
+
+    -rmkeyword <keyword>
+                  Downgrade the specified keyword to an identifier.
+
+    -showtrigger  
+                  Show red trigger line for loop marker.
+
+    -ssc licenseFile
+                  Specify the license file name.
+
+    -ssdf sdfFile 
+                  Load SDF/DDB file (*.sdf).
+
+    -ssf fastFile(s)|dumpFile(s)|fastFile list(s)
+                  Load FSDB (*.fsdb), virtual FSDB (*.vf), gzipped
+                  FSDB (*.fsdb.gz), bzip2 FSDB (*.fsdb.bz2),
+                  waveform dump (*.vcd, *.vcd.gz) files, or FSDB
+                  file lists (*.flst).
+
+    -ssr sessionFile
+                  Load session file (*.ses).
+
+    -sswr restoreFile(s)
+                  Load waveform restore file(s) (*.rc).
+
+    -sv_pragma    Compile the SystemVerilog assertions code that
+                  follows the sv_pragma keyword in a comment.
+
+    -syntaxerrormax <number>
+                  Specify the maximum number of syntax errors to
+                  stop parsing. If the syntax errors exceed the
+                  number, the parser will stop parsing the remaining
+                  files.
+
+    -timescale=<time_scale>
+                  Set the default timescale for the modules without
+                  timescale definition.
+
+    -tkName name  
+                  Gives verdi a name other tcl applications can use
+                  to send commands to.
+
+    -top <topModule>|<top1 top2 ...... topN>
+                  Specify the top module for the imported design.
+                  Multiple top modules are supported.
+
+    -undockWin    When specified, set the default value for the
+                  Undock Newly Created Windows preference option to
+                  'true' so new windows will be undocked.
+
+    -useius       Use IUS style parsing/elaboration.
+
+    -usemti       Use MTI style parsing/elaboration.
+
+    -usevcs       Use VCS style parsing/elaboration.
+
+    -veriSimType <XL|VCS>
+                  Specify the simulator type for the Verilog source
+                  naming convention. If the option is not specified,
+                  the simulator type follows the novas.rc file. If
+                  the novas.rc file does not exist or the type is
+                  not specified, the default is XL.
+
+    -vhdl | -verilog
+                  Specify the language for the imported design
+                  source. The default is -verilog. By default,
+                  -verilog uses the IEEE 1364-2001 standard and
+                  -vhdl uses the IEEE 1076-1993 standard.
+
+    -vhdlSimType <ModelSim|NC>
+                  Specify the simulator type for the VHDL source
+                  naming convention. If the option is not specified,
+                  the simulator type follow the novas.rc file. If
+                  the novas.rc file does not exist or the type is
+                  not specified, the default is ModelSim.
+
+    -vtop [file|assignment command]
+                  File:specify virtual top with file name for import
+                  design.
+                  assignment command:specify virtual top with
+                  assignment command for import design.
+                  assignment command has higher priority.
+
+    -vtopvhdl     Import design with VHDL virtual top. This option
+                  should collocate with -vtop option. .
+
+    -wcFile       Support the wildcard file list in a run.f file.
+                  Note that the /*...*/ comment syntax is not
+                  supported in the run.f file.
+
+    -workMode hardwareDebug|testbenchDebug|powerDebug|assertionDebug|interactiveDebug|user_defined_mode
+                  Specify the work mode or the user-defined mode.
+                  This option will be ignored if the -ssr option is
+                  also specified.
+
+    -wreal resolution_function
+                  Support only the "wreal" keyword in Verilog-AMS.
+                  This option also supports the "`realXState" or
+                  "`realZState" macros for the real x or z states
+                  respectively.
+
+[nTrace Options]
+
+OPTIONS
+    -2000         Support VHDL IEEE 1076-2000 standard.
+
+    -2001/+v2k    Support Verilog IEEE 1364-2001 standard.
+
+    -2001genblk   
+                  Use Verilog IEEE 1364-2001 naming style for
+                  generate blocks(overrides other language options).
+
+    -2005         Support Verilog IEEE 1364-2005 standard.
+
+    -2009         Support SystemVerilog IEEE 1800-2009 standard.
+
+    -2012         Support SystemVerilog IEEE 1800-2012 standard.
+
+    -87           Support VHDL IEEE 1076-1987 standard.
+
+    -93           Support VHDL IEEE 1076-1993 standard.
+
+    -RegPort      When specified, a reg declaration before the
+                  output declaration for the same signal will not
+                  generate an error.
+
+    -aliasIgnoreHier
+                  To apply alias setting to signals with same signal
+                  name regardless hierarchy differences. This option
+                  is supposed to be used with "-aliasFile".
+
+    -autoalias |-aliasFile alias_file
+                  Automatic alias or specify alias file.
+
+    -autoendcelldef
+                  Automatically appends `endcelldefine at the end of
+                  a file if a matching `endcelldefine can not be
+                  found for a declared `celldefine in the file.
+
+    -comment_transoff_regions -suboption | +suboption
+                  Skip source code between translate_off/on pragmas
+                  The suboptions are vendor names e.g. cadence,
+                  ikos, mentor, novas, pragma, quickturn, synopsys,
+                  synthesis.
+
+    -encode EUCJP 
+                  Display Japanese font in source code window.
+
+    -exactcolor   
+                  Use private colormap.
+
+    -fastGate     Run in fast gate-level debug mode. This mode
+                  provides faster searching and tracing in large
+                  gate-level designs.
+
+    -managercFile <Path>
+                  Specify the full file path of manage.rc.
+
+    -mdt MDTfile  
+                  Load memory definition table (MDT) file or MDT
+                  file list.
+
+    -mixnc simulator
+                  Specify the NC-Sim simulator file name.
+
+    -mti simulator
+                  Specify the MTI simulator file name.
+
+    -nc simulator 
+                  Specify the NC-Verilog simulator file name.
+
+    -nogui        Run in batch mode.
+
+    -pslfile filename
+                  Treat the specified file as a PSL file. This
+                  option will be ignored if the "-assert svvunit"
+                  option is not specified.
+
+    -rcFile <rcFilename>
+                  Specify novas.rc rcFile.
+
+    -ssv          Do not automatically tag library modules in
+                  library file (-v) as library cells.
+
+    -ssy          Do not automatically tag library modules in
+                  library directory (-y) as library cells.
+
+    -ssz          Ignore `celldefine compiler directive.
+
+    -sv | -sverilog
+                  Support SystemVerilog IEEE 1800-2005 standard.
+
+    -translateOn  
+                  Ignore the code between "synopsys
+                  translate_off"and "synopsys translate_on".
+
+    -v95          Support Verilog IEEE 1364-1995 standard.
+
+    -vc           Support DirectC syntax.
+
+    -vcs simulator
+                  Specify the VCS simulator file name.
+
+    -vhdl08       Support VHDL IEEE 1076-2008 standard.
+
+    -vhnc simulator
+                  Specify the NC-VHDL simulator file name.
+
+    -xl simulator 
+                  Specify the Verilog-XL simulator file name.
+
+    -xprop tmerge|xmerge|xp_config
+                  Specify the X-propagation format. The default is
+                  tmerge.
+
+    -xproplog filename
+                  Specify the X-propagation log file.
+
+[Simulator Options]
+
+DESCRIPTION
+    All simulator options are accepted by Verdi. For a complete
+    list, refer to the manual for your simulator. The following list
+    are commonly used with Verilog:
+
+OPTIONS
+    +define+<macro>
+                  The +define option is used to specify macros, and
+                  works only from file. If the macro is also defined
+                  in your source code, it will be overridden by this
+                  option.
+
+    +incdir+<directory_name>
+                  Specify the search path for files used by the
+                  include statement.
+
+    +libext+<extension_name>
+                  Used to specify the file extensions for Verilog
+                  library files. See also the -y option.
+
+    +librescan    Library search rule. Search the library list again
+                  from the first element of the library list when an
+                  unresolved module is discovered.
+
+    +pkgdir+<pkg_name|pkg_full_path>
+                  Load the specified DesignWare VIP package(s) as
+                  black box(es) by referring to the headers located
+                  in the release package or in an absolute path. 
+                  For example, 
+                  > verdi +pkgdir+amba <design> ...
+                    -> Compile the amba.f package located in the
+                  default product directory.
+                    -> Default product directory:
+                  "<NOVAS_INST_DIR>/etc/kdb/verilog/dwvip/AMBA_PKG"
+                  > verdi +pkgdir+/home/mydwvip/packages/amba
+                  <design> ...
+                     -> Compile all *.f files in
+                  "/home/mydwvip/packages/amba".
+
+    +systemverilogext+<extension_name>
+                  Specify the file extension for SystemVerilog
+                  files.
+
+    +v95ext+<extension_name>
+                  Specify the file extension for Verilog 1995 files.
+
+    +verilog1995ext+<extension_name>
+                  Specify the file extension for Verilog 1995 files.
+
+    +verilog2001ext+<extension_name>
+                  Specify the file extension for Verilog 2001 files.
+
+    -F file_name  
+                  Load an ASCII file containing a specified path to
+                  source files and simulator options. Relative path
+                  can be used to specify source files. The -F and
+                  -path options cannot be used simultaneously. The
+                  path assigned with the -path option will be
+                  ignored.
+                  This option is for Verilog only.
+
+    -define <macro>
+                  Define a macro.
+
+    -extinclude   
+                  Compile the included files with the version
+                  specified by its extension.When this option is not
+                  specified and a source file for one version of
+                  Verilog contains the include compiler directive,
+                  vericom by default compiles the included file for
+                  the same version of Verilog, even if the included
+                  file has a different filename extension.
+
+    -f file_name  
+                  Load an ASCII file containing design source files
+                  and additional simulator options.
+
+    -file file_name
+                  Load an ASCII file containing design source files
+                  and additional simulator options.
+
+    -i            Enable interactive debug mode without invoking GUI
+                  commands.
+
+    -ntb_opts <uvm|ovm>[-<version>]
+                  Load the UVM or OVM library for compilation.
+
+    -ovm[-<version>]
+                  Load the default Verdi OVM library.
+                  If -ovm and -ovmhome are specified at the same
+                  time, -ovm will be ignored.
+
+    -ovmhome <path>
+                  Specify the OVM installation directory.
+
+    -simBin "<Path>"
+                  Specify the path of the simulation binary file.
+                  The path must be double quoted.
+
+    -simOpt "<options>"/{<options>}
+                  Specify simulation options. Double quotes or
+                  braces {} must be used to enclose the options.
+
+    -simType <VCS|ModelSim|NC>
+                  Specify the simulator (VCS or ModelSim or NC) to
+                  use.
+
+    -uvmDebug     When this option is specified and "VCS" is
+                  specified as the simulator type, the following VCS
+                  run-time options will be automatically appended
+                  when the Verdi platform starts the simv binary.
+                  
+                  +UVM_CONFIG_DB_TRACE
+                  +UVM_PHASE_TRACE
+                  +UVM_OBJECTION_TRACE
+                  +UVM_RESOURCE_DB_TRACE
+                  +UVM_FACTORY_TRACE
+                  +UVM_LOG_RECORD
+                  +UVM_TR_RECORD.
+
+    -uvm[-<version>]
+                  Load the default Verdi UVM library.
+                  If -uvm and -uvmhome are specified at the same
+                  time, -uvm will be ignored.
+
+    -uvmhome <path>
+                  Specify the UVM installation directory.
+
+    -v file_name  
+                  Modules in the specified file will be treated as
+                  library cells. This option is overwritten by the
+                  -ssv option.
+
+    -y directory_name
+                  Modules in the specified directory will be treated
+                  as library cells. This option is overwritten by
+                  the -ssy option.
+
+[Environment Options]
+
+OPTIONS
+    -envinfo      Dump external environment variable descriptions.
+
+    -envmap       Dump mapping information for environment
+                  variables. old name -> new name.
+
+    -envset       Environment variable read from command line. Use +
+                  as the delimiter. Can be specified multiple times.
+                  Example: -envset ENV1=A+ENV2=B -envset "ENV3=1 2
+                  3+ENV4=C".
+
+    -rcinfo       Dump rcFile key descriptions.
+
+    -sdfDelay [Min|Typ|Max]
+                  Specify delay type in nSchema.
+
+[Behavior Analysis Options]
+
+OPTIONS
+    -apimem <file name>
+                  Specify a file to define API memory.
+
+    -ba           Perform behavior analysis immediately after load
+                  design. If -ba is specified with -bdb_load, -ba
+                  will be ignored.
+
+    -ba_mode [WSBA|MBBA]
+                  WSBA: Perform non-incremental behavior analysis in
+                  working scope mode.
+                  MBBA: Perform incremental behavior analysis in
+                  module-based mode.
+
+    -bas "scope(s)" | "*"
+                  Perform Behavior Analysis with the given scope as
+                  working scope(s) immediately after loading the
+                  design. For example, -bas "{scope1} {scope2}" will
+                  take "scope1" and "scope2" as working scopes and
+                  -bas "{*}" will take every loaded top module as
+                  working scopes.
+
+    -bboxEmptyModule [0|1]
+                  0: Not to define the empty modules as black
+                  boxes.
+                  1: Define the empty modules as black boxes.
+
+    -bboxIgnoreProtected [0|1]
+                  0: Specify to ignore the protected code.
+                  1: Specify to inference the protected code.
+
+    -bboxModule {module name}
+                  Specify the module(s) as black box(es).
+
+    -bboxModuleFile <file name>
+                  Define the modules in the specified file as black
+                  boxes.
+
+    -bboxSysTaskFile <file name>
+                  Define system tasks in the specified file as black
+                  boxes.
+
+    -bdb_incr     Load the Behavior Database (BDB) incrementally.
+                  This option only works when the -bdb_load option
+                  is specified.
+                  For example, 
+                  > novas -lib work -top system -bdb_load
+                    work.lib++/work.bdb -bdb_incr.
+
+    -bdb_load [filename]
+                  Load Behavior Database (BDB) immediately after
+                  loading the design from library. If -bdb_load is
+                  specified with -ba, -ba will be ignored.
+                  
+                  If a file name is specified without a full path,
+                  the default path specified in the [turbo_library]
+                  section of the novas.rc file will be used. For
+                  example:
+                    [turbo_library]
+                    bacom=<the library path>
+                  If the novas.rc is not specified, the default will
+                  be "work.lib++".
+                  
+                  If the file name is not specified, the default
+                  option value is"<lib_path>/work.bdb" where
+                  <lib_path> is the path specified in .rc file if
+                  specified; work.lib++ otherwise.
+
+    -bdb_load_scope "pathName"
+                  Specify the path to load the top module of the
+                  Behavior Database (BDB) file. This option only
+                  works when the -bdb_load option is specified.
+                  For example, 
+                  > novas -lib work -top system -bdb_load
+                    work.lib++/work.bdb -bdb_load_scope
+                    "system.i_cpu".
+
+    -cellModel [0|1|2|3|4]
+                  0: Use the cells from the symbol library first.
+                  1: Use the cells only from the symbol library.
+                  2: Use the cells only from the simulation
+                  library.
+                  3: Use the cells from the simulation library
+                  first.
+                  4: For combinational cells, the Behavior Analysis
+                  engine will use the simulation model first and for
+                  sequential cells, the Behavior Analysis engine
+                  will use the symbol library model first.
+
+    -clockSkew [0|positive integer]
+                  Specify the worst-case clock skew.
+
+    -cont_ba_err  
+                  Continue performing behavior analysis even when
+                  errors occur from importing the design.
+
+    -loopUnroll [0|positive integer]
+                  Define any for loops with a number greater than
+                  the specified value as black boxes.
+
+    -macroCell {cell name}
+                  Define the specified module(s) as macro cell(s).
+
+    -macroCellFile <file name>
+                  Define module(s) in the specified file as macro
+                  cell(s).
+
+    -simModuleExceptionList {module name}
+                  Use the specified module(s) from the simulation
+                  library.
+
+    -simModuleExceptionListFile <file name>
+                  Use the module(s) specified in the file from the
+                  simulation library.
+
+    -symLibCellExceptionList {cell name}
+                  Use the specified cell(s) from the symbol library.
+
+    -symLibCellExceptionListFile <file name>
+                  Use the cell(s) specified in the file from the
+                  symbol library.
+
+[Power Manager Options]
+
+DESCRIPTION
+    All Power Manager options are accepted by Verdi. For a complete
+    list, refer to the manual to see detail. The following list are
+    commonly used.
+
+OPTIONS
+    -aoSignalFile file
+                  Specify the input file where full hierarchy names
+                  of always-on signals are listed.
+
+    -cpf1.0 | cpf1.1
+                  Specify which cpf file(s) to import.
+
+    -domainColor configFile
+                  Specify the configuration file to set colors for
+                  the specified power domains.
+
+    -extractSamePort
+                  When a power design is imported from command line
+                  and this option is specified, the power domain
+                  state is evaluated considering add_port_state
+                  command(s) for the same port alias. This option is
+                  only valid for UPF designs.
+
+    -lp_xml       Specify which low power XML file to import. The
+                  low power XML file is generated by the simulator
+                  like vcs.
+
+    -lps_cpf cpf_filename
+                  Specifies the name of the cpf file to be used with
+                  the design.
+
+    -lps_iso_off  
+                  Turns off port isolation.
+
+    -lps_off      Turns off all low-power simulation.
+
+    -lps_rtn_off  
+                  Turns off state retention.
+
+    -powerLib libFile
+                  Specify the power library file to load.The power
+                  library file is generated by the powercom utility.
+
+    -powerModel NLP|MVSim|ModelSim|NCSim
+                  Specify the simulator when parsing the power
+                  design.The default is NLP.
+
+    -upf1.0 | upf2.0
+                  Specify which upf file(s) to import.
+
+    -upfTop topDesign
+                  Specify the top-level design instance for upf
+                  file(s).
+
+    -upf_ground_logic_value_is_1 <1|0>|<yes|no>
+                  Treat the ground value to be treated as, ON is 1.
+                  1|yes = 1 is considered as ON for ground; 0|no = 0
+                  is considered as ON for ground. This option is
+                  only valid for UPF designs.
+
+Usage: [Coverage Options]...
+[Coverage Options]
+
+OPTIONS
+    -cov          Start up in coverage mode.
+
+    -covdir <dir> 
+                  Open the coverage database in <dir>.
+
+    -covf <file>  
+                  Open coverage directories listed in <file>.
+
+    -tests <file> 
+                  Specify a file containing names of tests to report
+                  from specified directories.
+
+    -show availabletests
+                  List the available tests for the given design.
+
+    -map <module> 
+                  Report on merging mapped modules coverage given by
+                  <module>.
+
+    -mapfile <file>
+                  Report on merging mapped modules coverage given in
+                  <file>.
+
+    -show fullhier
+                  Show full hierarchy, including instances that have
+                  a hierarchical coverable count of zero which are
+                  not shown by default.
+
+    -metric line  
+                  Report line coverage.
+
+    -metric fsm   
+                  Report fsm coverage.
+
+    -metric cond  
+                  Report cond coverage.
+
+    -metric tgl   
+                  Report tgl coverage.
+
+    -metric branch
+                  Report branch coverage.
+
+    -metric assert
+                  Report coverage for monitored cover properties,
+                  assertion properties and cover sequences.
+
+    -metric group 
+                  Report covergroup coverage.
+
+    -line nocasedef
+                  Exclude case default lines in line coverage.
+
+    -cond ids     Show the expression and vector IDs in coverage
+                  detail pane.
+
+    -fsm disable_sequence
+                  Do not report sequences in FSM coverage.
+
+    -tgl portsonly
+                  Only report ports in toggle coverage.
+
+    -assert minimal
+                  Only report modules and instances which have
+                  assertion in assertion coverage. Code coverage
+                  database can not be loaded with this option.
+
+    -group merge_across_scopes
+                  Merge covergroups across module scopes and
+                  hierarchy.
+
+    -group flex_merge_drop
+                  Enables flexible merging for covergroups.
+
+    -group ratio  
+                  Compute covergroup scores and overall group score
+                  as a simple ratio of covered divided by coverable.
+
+    -hier <file>  
+                  Specify the module definitions, instances,
+                  hierarchies, and source files you want to exclude
+                  or include for report in <file>.
+
+    -elfile <file>
+                  Exclusion files <file>s to be loaded.
+
+    -elfilelist <file>
+                  Provide a <file> containing the names of the
+                  exclusion files to be loaded.
+
+    -excl_append_annotation
+                  Keep multiple exclusion annotations for same
+                  object.
+
+    -excl_bypass_checks
+                  Bypass checks when loading exclusion files.
+
+    -excl_resolve on/off
+                  Turn on/off adaptive exclusion.
+
+    -excl_strict  
+                  Do not allow covered objects to be excluded.
+
+    -plan <file>  
+                  Open HVP files <file>s.
+
+    -userdata <file>
+                  Load user files <file>s.
+
+    -userdatafile <file>
+                  Specify a file containing HVP data file names for
+                  annotation.
+
