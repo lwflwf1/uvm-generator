@@ -194,24 +194,24 @@ def comp_gen(comp, cfg, an_index=None):
                 for i, x in enumerate(cfg['agent']['to_ref_mdl']):
                     if x:
                         if cfg['agent']['inst_number'][i] == 1:
-                            f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt.to_ref_mdl_ap.connect(m_ref_mdl.imp_{cfg["agent"]["type"][i]});\n')
+                            f.write(f'    m_{cfg["agent"]["type"][i]}_agt.to_ref_mdl_ap.connect(m_ref_mdl.imp_{cfg["agent"]["type"][i]});\n')
                         else:
                             for j in range(cfg['agent']['inst_number'][i]):
-                                f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[{j}].to_ref_mdl_ap.connect(m_ref_mdl.imp_{cfg["agent"]["type"][i]}{j});\n')
+                                f.write(f'    m_{cfg["agent"]["type"][i]}_agt[{j}].to_ref_mdl_ap.connect(m_ref_mdl.imp_{cfg["agent"]["type"][i]}{j});\n')
                 for i, x in enumerate(cfg['agent']['to_scb']):
                     if x:
                         if cfg['agent']['inst_number'][i] == 1:
-                            f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt.to_scb_ap.connect(m_scb.imp_{cfg["agent"]["type"][i]});\n')
+                            f.write(f'    m_{cfg["agent"]["type"][i]}_agt.to_scb_ap.connect(m_scb.imp_{cfg["agent"]["type"][i]});\n')
                         else:
                             for j in range(cfg['agent']['inst_number'][i]):
-                                f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[{j}].to_scb_ap.connect(m_scb.imp_{cfg["agent"]["type"][i]}{j});\n')
+                                f.write(f'    m_{cfg["agent"]["type"][i]}_agt[{j}].to_scb_ap.connect(m_scb.imp_{cfg["agent"]["type"][i]}{j});\n')
                 for i, x in enumerate(cfg['agent']['to_sbr']):
                     if x:
                         if cfg['agent']['inst_number'][i] == 1:
-                            f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt.to_sbr_ap.connect(m_sbr.imp_{cfg["agent"]["type"][i]});\n')
+                            f.write(f'    m_{cfg["agent"]["type"][i]}_agt.to_sbr_ap.connect(m_sbr.imp_{cfg["agent"]["type"][i]});\n')
                         else:
                             for j in range(cfg['agent']['inst_number'][i]):
-                                f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[{j}].to_sbr_ap.connect(m_sbr.imp_{cfg["agent"]["type"][i]}{j});\n')
+                                f.write(f'    m_{cfg["agent"]["type"][i]}_agt[{j}].to_sbr_ap.connect(m_sbr.imp_{cfg["agent"]["type"][i]}{j});\n')
                 if cfg['ref_mdl_to_scb'] == 1:
                     f.write(f'    m_ref_mdl.to_scb_ap.connect(m_scb.imp_ref);\n')
                 else:
@@ -258,10 +258,10 @@ def comp_gen(comp, cfg, an_index=None):
             for i, x in enumerate(cfg['agent']['to_ref_mdl']):
                 if x:
                     if cfg['agent']['inst_number'][i] == 1:
-                        f.write(f'    m_vsqr.m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr = m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt.m_sqr;\n')
+                        f.write(f'    m_vsqr.m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr = m_{cfg["agent"]["type"][i]}_agt.m_sqr;\n')
                     else:
                         s = f'''    for (int i = 0; i < {cfg["agent"]["inst_number"][i]}; i++) begin
-        m_vsqr.m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr[i] = m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[i].m_sqr;
+        m_vsqr.m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr[i] = m_{cfg["agent"]["type"][i]}_agt[i].m_sqr;
     end\n'''
                         f.write(s)
 
@@ -269,16 +269,16 @@ def comp_gen(comp, cfg, an_index=None):
         if statement_p.search(line):
             for i in range(cfg['agent_type_number']):
                 if cfg['agent']['inst_number'][i] == 1:
-                    f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt;\n')
+                    f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent m_{cfg["agent"]["type"][i]}_agt;\n')
                 else:
-                    f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[{cfg["agent"]["inst_number"][i]}];\n')
+                    f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent m_{cfg["agent"]["type"][i]}_agt[{cfg["agent"]["inst_number"][i]}];\n')
         if create_comp_p.search(line):
             for i in range(cfg['agent_type_number']):
                 if cfg['agent']['inst_number'][i] == 1:
-                    f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt = my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent::type_id::create("m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt", this);\n')
+                    f.write(f'    m_{cfg["agent"]["type"][i]}_agt = my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent::type_id::create("m_{cfg["agent"]["type"][i]}_agt", this);\n')
                 else:
                     s = f'''    for (int i = 0; i < {cfg["agent"]["inst_number"][i]}; i++) begin
-        m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[i] = my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent::type_id::create($sformatf("m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[%0d]", i), this);
+        m_{cfg["agent"]["type"][i]}_agt[i] = my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agent::type_id::create($sformatf("m_{cfg["agent"]["type"][i]}_agt[%0d]", i), this);
     end\n'''
                     f.write(s)
 
@@ -357,10 +357,10 @@ def comp_gen(comp, cfg, an_index=None):
         if setcfg_p.search(line):
             for i in range(cfg['agent_type_number']):
                 if cfg['agent']['inst_number'][i] == 1:
-                    f.write(f'    m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt.is_active = tbcfg.{cfg["agent"]["type"][i]}_agt_is_active;\n')
+                    f.write(f'    m_{cfg["agent"]["type"][i]}_agt.is_active = tbcfg.{cfg["agent"]["type"][i]}_agt_is_active;\n')
                 else:
                     s = f'''    for (int i = 0; i < {cfg['agent']['inst_number'][i]}; i++) begin
-        m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_agt[i].is_active = tbcfg.{cfg["agent"]["type"][i]}_agt_is_active[i];
+        m_{cfg["agent"]["type"][i]}_agt[i].is_active = tbcfg.{cfg["agent"]["type"][i]}_agt_is_active[i];
     end\n'''
                     f.write(s)
 
