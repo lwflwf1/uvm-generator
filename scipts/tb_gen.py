@@ -249,19 +249,19 @@ def comp_gen(comp, cfg, an_index=None):
             for i, x in enumerate(cfg["agent"]["to_ref_mdl"]):
                 if x:
                     if cfg['agent']['inst_number'][i] == 1:
-                        f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sequencer m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr;\n')
+                        f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sequencer m_{cfg["agent"]["type"][i]}_sqr;\n')
                     else:
-                        f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sequencer m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr[{cfg["agent"]["inst_number"][i]}];\n')
+                        f.write(f'    my_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sequencer m_{cfg["agent"]["type"][i]}_sqr[{cfg["agent"]["inst_number"][i]}];\n')
 
     def connect_sqr():
         if connectsqr_p.search(line):
             for i, x in enumerate(cfg['agent']['to_ref_mdl']):
                 if x:
                     if cfg['agent']['inst_number'][i] == 1:
-                        f.write(f'    m_vsqr.m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr = m_{cfg["agent"]["type"][i]}_agt.m_sqr;\n')
+                        f.write(f'    m_vsqr.m_{cfg["agent"]["type"][i]}_sqr = m_{cfg["agent"]["type"][i]}_agt.m_sqr;\n')
                     else:
                         s = f'''    for (int i = 0; i < {cfg["agent"]["inst_number"][i]}; i++) begin
-        m_vsqr.m_{cfg["module_name"]}_{cfg["agent"]["type"][i]}_sqr[i] = m_{cfg["agent"]["type"][i]}_agt[i].m_sqr;
+        m_vsqr.m_{cfg["agent"]["type"][i]}_sqr[i] = m_{cfg["agent"]["type"][i]}_agt[i].m_sqr;
     end\n'''
                         f.write(s)
 
