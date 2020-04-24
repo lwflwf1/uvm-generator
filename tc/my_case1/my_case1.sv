@@ -10,7 +10,7 @@
 //  Class: my_virtual_sequence
 //
 class my_virtual_sequence extends uvm_sequence;
-    `uvm_object_utils(my_virtual_sequence);
+    `uvm_object_utils(my_virtual_sequence)
     `uvm_declare_p_sequencer(my_virtual_sequencer)
 
     //  Group: Sequences
@@ -85,7 +85,7 @@ endtask: post_start
 //  Class: my_case1
 //
 class my_case1 extends my_base_test;
-    `uvm_component_utils(my_case1);
+    `uvm_component_utils(my_case1)
 
     //  Group: Config
     
