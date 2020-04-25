@@ -1,0 +1,9 @@
+log/
+fsdb/
+verdilog/
+*.log
+*simv*
+*.key
+vc_hdrs.h
+novas*
+csrc/

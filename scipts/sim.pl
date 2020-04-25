@@ -74,7 +74,7 @@ sub main {
 }
 
 sub verdi {
-    $verdi_opt = "-2012 -f ./filelist/filelist_rtl.f -nologo -ssf ./fsdb/$case*.fsdb -logdir ./verdilog -logfile -guiConf ./verdilog/novas.conf -veriSimType VCS -rcFile ./verdilog/novas.rc";
+    $verdi_opt = "-2012 -f ./filelist/filelist.f -nologo -ssf ./fsdb/$case*.fsdb -logdir ./verdilog -logfile -guiConf ./verdilog/novas.conf -veriSimType VCS -rcFile ./verdilog/novas.rc";
     system "verdi $verdi_opt &";
 }
 
