@@ -52,7 +52,7 @@ sub main {
     if ($cov == 1) {
         $vcs_opt .= "-cm_name RTL -cm_log ./log/cm.log ";
         # $vcs_opt .= "-cm_hier ./cfg/hier_file.conf ";
-        $vcs_opt .= "-cm line+cond+fsm ";
+        $vcs_opt .= "-cm line+cond+fsm+assert ";
         $vcs_opt .= "-cm_line contassign ";
         $vcs_opt .= "-cm_cond allops+event+anywidth ";
         $vcs_opt .= "-cm_ignorepragmas -cm_noconst ";
@@ -79,7 +79,15 @@ sub verdi {
 }
 
 sub help {
-
+    print "usage example:\n\t";
+    print "simulation:\n\t";
+    print "./scripts/sim.pl my_case1                //run my_case1, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off       //run my_case1, dump off, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off cov   //run my_case1, dump off, cov on\n\t";
+    print "the three arguments can be in any order\n\n\t";
+    print "verdi:\n\t";
+    print "./scripts/sim.pl my_case1 verdi\n\t";
+    print "the two arguments can be in any order\n";
 }
 
 main;
