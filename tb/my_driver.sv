@@ -117,8 +117,8 @@ task my_driver::run_phase(uvm_phase phase);
     forever begin
         seq_item_port.try_next_item(req);
         if (req != null) begin
-            seq_item_port.item_done();
             drive_one_pkt(req);
+            seq_item_port.item_done();
         end
         else begin
             // insert an idle cycle

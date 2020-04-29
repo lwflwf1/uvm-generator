@@ -8,8 +8,8 @@ my $verdi_home = $ENV{VERDI_HOME};
 my $case;
 my $dump_off = 0;
 my $cov = 0;
-my $time = time;
-my $vcs_opt = "-debug_pp -R -full64 +plusarg_save +v2k -sverilog  +no_notifier +vc +ntb_random_seed=$time ";
+my $seed = time;
+my $vcs_opt = "-debug_pp -R -full64 +plusarg_save +v2k -sverilog  +no_notifier +vc ";
 my $verdi_opt;
 
 sub main {
@@ -19,13 +19,17 @@ sub main {
         if (/cov/) { $cov = 1; }
         if (/verdi/) {$verdi_opt = 1;}
         if (/help/) { &help; return; } 
+        if (/seed/) {
+            s/seed=//;
+            $seed = $_;
+        }
     }
     if (!defined($case)) {die "case not set!\n";}
     if (defined($verdi_opt)) { &verdi; return; }
 
     my $log = "./log/$case.log";
     my $topname = glob './tb/*top.sv';
-    $vcs_opt .= "-ntb_opts uvm +UVM_TESTNAME=$case +UVM_OBJECTION_TRACE +define+UVM_NO_DEPRECATED +UVM_PHASE_TRACE -timescale=1ns/1ps -l $log ";
+    $vcs_opt .= "-ntb_opts uvm +UVM_TESTNAME=$case +UVM_OBJECTION_TRACE +define+UVM_NO_DEPRECATED +UVM_PHASE_TRACE -timescale=1ns/1ps -l $log  +ntb_random_seed=$seed ";
     open CASECFG, "<", "./tc/$case/$case.cfg" or die "open file fail:$!\n";
     while(<CASECFG>) {
         if (/vcs options/) {
@@ -81,10 +85,11 @@ sub verdi {
 sub help {
     print "usage example:\n\t";
     print "simulation:\n\t";
-    print "./scripts/sim.pl my_case1                //run my_case1, dump on, cov off\n\t";
-    print "./scripts/sim.pl my_case1 dump_off       //run my_case1, dump off, cov off\n\t";
-    print "./scripts/sim.pl my_case1 dump_off cov   //run my_case1, dump off, cov on\n\t";
-    print "the three arguments can be in any order\n\n\t";
+    print "./scripts/sim.pl my_case1                        //run my_case1, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off               //run my_case1, dump off, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off cov           //run my_case1, dump off, cov on\n\t";
+    print "./scripts/sim.pl my_case1 dump_off cov seed=10   //run my_case1, dump off, cov on, seed=10\n\t";
+    print "the four arguments can be in any order\n\n\t";
     print "verdi:\n\t";
     print "./scripts/sim.pl my_case1 verdi\n\t";
     print "the two arguments can be in any order\n";
