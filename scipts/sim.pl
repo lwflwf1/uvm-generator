@@ -21,7 +21,8 @@ sub main {
         if (/help/) { &help; return; } 
         if (/seed/) {
             s/seed=//;
-            $seed = $_;
+            if(/^\d\d+\d$/g) { $seed = $_;}
+            else {die "seed can not be $_\n";}
         }
     }
     if (!defined($case)) {die "case not set!\n";}
