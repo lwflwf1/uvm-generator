@@ -3,7 +3,14 @@ if(@ARGV < 2) {
     die "not enough argument\n";
 }
 my $src = "my_case".$ARGV[0];
-my @dst = @ARGV[1..$#ARGV];
+my @dst;
+my ($a, $b);
+foreach (@ARGV[1..$#ARGV]) {
+    if(($a, $b) = ($_ =~ /(\d+)..(\d+)/ )) {
+        foreach($a..$b) { push @dst, $_; }
+    }
+    else { push @dst, $_;}
+}
 foreach (@dst) {
     my $dst = "my_case".$_;
     mkdir "./tc/$dst";

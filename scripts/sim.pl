@@ -5,80 +5,103 @@ $ENV{LD_LIBRARY_PATH} = "$ENV{LD_LIBRARY_PATH}".":/app/synopsys/verdi1403/share/
 # $ENV{NOVAS_HOME} = "/app/synopsys/verdi1403";
 my $verdi_home = $ENV{VERDI_HOME};
 
-my $case;
+my @cases;
 my $dump_off = 0;
 my $cov = 0;
 my $seed = time;
-my $vcs_opt = "-debug_pp -R -full64 +plusarg_save +v2k -sverilog  +no_notifier +vc ";
+my $vcs = "-debug_pp -R -full64 +plusarg_save +v2k -sverilog  +no_notifier +vc ";
 my $verdi_opt;
+my %case_fail;
+my $topname = glob './tb/*top.sv';
 
 sub main {
     foreach (@ARGV) {
-        if (/case/) { $case = $_; }
-        if (/dump_off/) { $dump_off = 1; }
-        if (/cov/) { $cov = 1; }
-        if (/verdi/) {$verdi_opt = 1;}
-        if (/help/) { &help; return; } 
-        if (/seed/) {
-            s/seed=//;
-            if(/^\d\d+\d$/g) { $seed = $_;}
-            else {die "seed can not be $_\n";}
+        if (/case(\d+)(..)?(\d+)?/) { 
+            if(!(defined($2) or defined($3))) { push @cases, $_; }
+            else { foreach ($1..$3) {push @cases, "my_case".$_;} }
         }
+        elsif (/dump_off/) { $dump_off = 1; }
+        elsif (/cov/) { $cov = 1; }
+        elsif (/verdi/) {$verdi_opt = 1;}
+        elsif (/help/) { &help; return; } 
+        elsif (/seed/) {
+            s/seed=//;
+            $seed = $_;
+        }
+        else {die "invalid argument:'$_'\n";}
     }
-    if (!defined($case)) {die "case not set!\n";}
+    if (!@cases) {die "case not set!\n";}
     if (defined($verdi_opt)) { &verdi; return; }
 
-    my $log = "./log/$case.log";
-    my $topname = glob './tb/*top.sv';
-    $vcs_opt .= "-ntb_opts uvm +UVM_TESTNAME=$case +UVM_OBJECTION_TRACE +define+UVM_NO_DEPRECATED +UVM_PHASE_TRACE -timescale=1ns/1ps -l $log  +ntb_random_seed=$seed ";
-    open CASECFG, "<", "./tc/$case/$case.cfg" or die "open file fail:$!\n";
-    while(<CASECFG>) {
-        if (/vcs options/) {
-            if (defined($line = readline CASECFG)) {
-                chomp $line;
-                $vcs_opt .= $line;
+    foreach $case (@cases) {
+        my $log = "./log/$case.log";
+        my $vcs_opt = $vcs."-ntb_opts uvm +UVM_TESTNAME=$case +UVM_OBJECTION_TRACE +define+UVM_NO_DEPRECATED +UVM_PHASE_TRACE -timescale=1ns/1ps +ntb_random_seed=$seed -l $log ";
+        open my $casecfg, "<", "./tc/$case/$case.cfg" or die "open file $case.cfg:$!\n";
+        while(<$casecfg>) {
+            if (/vcs options/) {
+                if (defined($line = readline $casecfg)) {
+                    chomp $line;
+                    $vcs_opt .= $line." ";
+                }
             }
         }
-    }
+        close $casecfg;
 
-    if ($dump_off == 0) {
-        $vcs_opt .= " +define+DUMP -LDFLAGS -rdynamic -P $verdi_home/share/PLI/VCS/LINUX64/novas.tab $verdi_home/share/PLI/VCS/LINUX64/pli.a ";
-        rename $topname, $topname.".bak";
-        open my $topfileorigin, '<', $topname.".bak" or die "open file fail:$!\n";
-        open my $topfile, '>', $topname or die "open file fail:$!\n";
-        while(<$topfileorigin>) {
-            s/test_fsdb/$case/;
-            print $topfile $_;
+        if ($dump_off == 0) {
+            $vcs_opt .= " +define+DUMP -LDFLAGS -rdynamic -P $verdi_home/share/PLI/VCS/LINUX64/novas.tab $verdi_home/share/PLI/VCS/LINUX64/pli.a ";
+            rename $topname, $topname.".bak";
+            open my $topfileorigin, '<', $topname.".bak" or die "open file $topname:$!\n";
+            open my $topfile, '>', $topname or die "open file $topname:$!\n";
+            while(<$topfileorigin>) {
+                s/test_fsdb/$case/;
+                print $topfile $_;
+            }
+            close $topfile;
+            close $topfileorigin;
+        } 
+
+        if ($cov == 1) {
+            $vcs_opt .= "-cm_name RTL -cm_log ./log/cm.log ";
+            # $vcs_opt .= "-cm_hier ./cfg/hier_file.conf ";
+            $vcs_opt .= "-cm line+cond+fsm+assert ";
+            $vcs_opt .= "-cm_line contassign ";
+            $vcs_opt .= "-cm_cond allops+event+anywidth ";
+            $vcs_opt .= "-cm_ignorepragmas -cm_noconst ";
+            $vcs_opt .= "-cm_dir ./cov/$case ";
         }
-        close $topfile;
-        close $topfileorigin;
-    } 
 
-    if ($cov == 1) {
-        $vcs_opt .= "-cm_name RTL -cm_log ./log/cm.log ";
-        # $vcs_opt .= "-cm_hier ./cfg/hier_file.conf ";
-        $vcs_opt .= "-cm line+cond+fsm+assert ";
-        $vcs_opt .= "-cm_line contassign ";
-        $vcs_opt .= "-cm_cond allops+event+anywidth ";
-        $vcs_opt .= "-cm_ignorepragmas -cm_noconst ";
-        $vcs_opt .= "-cm_dir ./cov/$case ";
-    }
+        $vcs_opt .= "-f ./filelist/filelist.f ./tc/$case/$case.sv ";
+        $vcs_opt .= "+notimingcheck ";
 
-    $vcs_opt .= "-f ./filelist/filelist.f ./tc/$case/$case.sv ";
-    $vcs_opt .= "+notimingcheck ";
-
-    system "vcs $vcs_opt";
-    print "\n/*------------------------------------------------------------*/\n";
-    print "    finish test $case\n";
-    print "/*------------------------------------------------------------*/\n";
+        system "vcs $vcs_opt";
+        print "\n/*------------------------------------------------------------*/\n";
+        print "    finish test $case\n";
+        print "/*------------------------------------------------------------*/\n";
     
-    if ($dump_off == 0) {
-        unlink $topname;
-        rename $topname.".bak", $topname;
+        if ($dump_off == 0) {
+            unlink $topname;
+            rename $topname.".bak", $topname;
+        }
+        my $logfile;
+        open $logfile, "<", $log or die "can not open $logfile:$!\n";
+        $case_fail{$case} = "pass"; 
+        while (<$logfile>) {
+            if (/uvm_(?:error|fatal)\s*:\s*(\d+)/i and ($1 > 0)) {
+                $case_fail{$case} = "fail";
+                last;
+            }
+        }
+        close $logfile;
     }
+    my ($key, $value);
+    print "\n/*------------------------------------------------------------*/\n";
+    while (($key, $value) = each %case_fail) {print "$key: $value\n";}
+    print "/*------------------------------------------------------------*/\n";
+
 }
 
 sub verdi {
+    my $case = $cases[0];
     $verdi_opt = "-2012 -f ./filelist/filelist.f -nologo -ssf ./fsdb/$case*.fsdb -logdir ./verdilog -logfile -guiConf ./verdilog/novas.conf -veriSimType VCS -rcFile ./verdilog/novas.rc";
     system "verdi $verdi_opt &";
 }
