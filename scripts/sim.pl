@@ -1,8 +1,7 @@
-#!/usr/bin/perl
-use warnings;
+#!/usr/bin/perl -w
 
-$ENV{LD_LIBRARY_PATH} = "$ENV{LD_LIBRARY_PATH}".":/app/synopsys/verdi1403/share/PLI/VCS/LINUX64";
 # $ENV{NOVAS_HOME} = "/app/synopsys/verdi1403";
+$ENV{LD_LIBRARY_PATH} = "$ENV{LD_LIBRARY_PATH}".":/app/synopsys/verdi1403/share/PLI/VCS/LINUX64";
 my $verdi_home = $ENV{VERDI_HOME};
 
 my @cases;
@@ -28,7 +27,8 @@ sub main {
             s/seed=//;
             $seed = $_;
         }
-        else {die "invalid argument:'$_'\n";}
+        elsif (/urg/){&urg; return;}
+        else {die "invalid argument:'$_'\nuse './scripts/sim.pl help' for help\n";}
     }
     if (!@cases) {die "case not set!\n";}
     if (defined($verdi_opt)) { &verdi; return; }
@@ -68,6 +68,7 @@ sub main {
             $vcs_opt .= "-cm_cond allops+event+anywidth ";
             $vcs_opt .= "-cm_ignorepragmas -cm_noconst ";
             $vcs_opt .= "-cm_dir ./cov/$case ";
+            $vcs_opt .= "+define+COV ";
         }
 
         $vcs_opt .= "-f ./filelist/filelist.f ./tc/$case/$case.sv ";
@@ -107,16 +108,25 @@ sub verdi {
 }
 
 sub help {
-    print "usage example:\n\t";
-    print "simulation:\n\t";
-    print "./scripts/sim.pl my_case1                        //run my_case1, dump on, cov off\n\t";
-    print "./scripts/sim.pl my_case1 dump_off               //run my_case1, dump off, cov off\n\t";
-    print "./scripts/sim.pl my_case1 dump_off cov           //run my_case1, dump off, cov on\n\t";
-    print "./scripts/sim.pl my_case1 dump_off cov seed=10   //run my_case1, dump off, cov on, seed=10\n\t";
-    print "the four arguments can be in any order\n\n\t";
-    print "verdi:\n\t";
+    print "\nusage:\n\t";
+    print "if you want to run cases:\n\t";
+    print "./scripts/sim.pl my_case1                            //run my_case1, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 my_case3                   //run my_case1, my_case3, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 my_case3..10 my_case13     //run my_case1, my_case3-my_case10, my_case13, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off                   //run my_case1, dump off, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off cov               //run my_case1, dump off, cov on\n\t";
+    print "./scripts/sim.pl my_case1..10 dump_off cov seed=10   //run my_case1-my_case10, dump off, cov on, seed=10\n\t";
+    print "arguments can be in any order\n\n\t";
+    print "if you want to open verdi:\n\t";
     print "./scripts/sim.pl my_case1 verdi\n\t";
-    print "the two arguments can be in any order\n";
+    print "the two arguments can be in any order\n\n\t";
+    print "if you want to generate coverage report and open report with firefox:\n\t";
+    print "./scripts/sim.pl my_case1 urg\n\n";
+}
+
+sub urg { 
+    system "urg -dir ./cov/my_case*.vdb -report ./cov/cov_rpt -format both -full64";
+    system "firefox ./cov/cov_rpt/dashboard.html &";
 }
 
 main;

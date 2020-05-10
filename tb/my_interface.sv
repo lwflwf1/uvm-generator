@@ -23,5 +23,7 @@ interface my_interface
     // clocking block
     
     // assert and cover property
+
+    // other tasks and functions
     
 endinterface: my_interface
