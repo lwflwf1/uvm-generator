@@ -1,4 +1,5 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
+use warnings;
 
 # $ENV{NOVAS_HOME} = "/app/synopsys/verdi1403";
 $ENV{LD_LIBRARY_PATH} = "$ENV{LD_LIBRARY_PATH}".":/app/synopsys/verdi1403/share/PLI/VCS/LINUX64";
@@ -28,6 +29,7 @@ sub main {
             $seed = $_;
         }
         elsif (/urg/){&urg; return;}
+        elsif (/clear/){&clear("cov", "log", "fsdb"); return;}
         else {die "invalid argument:'$_'\nuse './scripts/sim.pl help' for help\n";}
     }
     if (!@cases) {die "case not set!\n";}
@@ -87,7 +89,7 @@ sub main {
         open $logfile, "<", $log or die "can not open $logfile:$!\n";
         $case_fail{$case} = "pass"; 
         while (<$logfile>) {
-            if (/uvm_(?:error|fatal)\s*:\s*(\d+)/i and ($1 > 0)) {
+            if (/uvm_(?:error|fatal)\s*:\s*(\d+)|\d+\s*error/i and ($1 > 0)) {
                 $case_fail{$case} = "fail";
                 last;
             }
@@ -127,6 +129,16 @@ sub help {
 sub urg { 
     system "urg -dir ./cov/my_case*.vdb -report ./cov/cov_rpt -format both -full64";
     system "firefox ./cov/cov_rpt/dashboard.html &";
+}
+
+sub clear {
+    foreach(@_){
+        unlink glob "$_/* $_/.*";
+        foreach(glob "$_/*"){
+            &clear($_);
+            rmdir;
+        }
+    }
 }
 
 main;
