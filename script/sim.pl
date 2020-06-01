@@ -112,18 +112,20 @@ sub verdi {
 sub help {
     print "\nusage:\n\t";
     print "if you want to run cases:\n\t";
-    print "./scripts/sim.pl my_case1                            //run my_case1, dump on, cov off\n\t";
-    print "./scripts/sim.pl my_case1 my_case3                   //run my_case1, my_case3, dump on, cov off\n\t";
-    print "./scripts/sim.pl my_case1 my_case3..10 my_case13     //run my_case1, my_case3-my_case10, my_case13, dump on, cov off\n\t";
-    print "./scripts/sim.pl my_case1 dump_off                   //run my_case1, dump off, cov off\n\t";
-    print "./scripts/sim.pl my_case1 dump_off cov               //run my_case1, dump off, cov on\n\t";
-    print "./scripts/sim.pl my_case1..10 dump_off cov seed=10   //run my_case1-my_case10, dump off, cov on, seed=10\n\t";
+    print "./scripts/sim.pl my_case1                            // run my_case1, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 my_case3                   // run my_case1, my_case3, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 my_case3..10 my_case13     // run my_case1, my_case3-my_case10, my_case13, dump on, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off                   // run my_case1, dump off, cov off\n\t";
+    print "./scripts/sim.pl my_case1 dump_off cov               // run my_case1, dump off, cov on\n\t";
+    print "./scripts/sim.pl my_case1..10 dump_off cov seed=10   // run my_case1-my_case10, dump off, cov on, seed=10\n\t";
     print "arguments can be in any order\n\n\t";
     print "if you want to open verdi:\n\t";
     print "./scripts/sim.pl my_case1 verdi\n\t";
     print "the two arguments can be in any order\n\n\t";
     print "if you want to generate coverage report and open report with firefox:\n\t";
-    print "./scripts/sim.pl my_case1 urg\n\n";
+    print "./scripts/sim.pl urg\n\n";
+    print "if you want to clear files in fsdb, log and cov:\n\t";
+    print "./scripts/sim.pl clear\n\n";
 }
 
 sub urg { 

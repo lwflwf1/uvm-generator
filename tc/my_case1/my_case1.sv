@@ -52,7 +52,7 @@ task my_virtual_sequence::body();
     /* Codes below will not work correctly because i is static                        
         for (int i = 0; i < 10; i++) begin
             fork
-                `uvm_do_on(seq[i], p_sequencer.sqr[i]
+                `uvm_do_on(seq[i], p_sequencer.sqr[i])
             join_none
         end
     --------------------------------------------------------------*/
