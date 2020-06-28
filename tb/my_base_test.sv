@@ -14,11 +14,11 @@ class my_base_test extends uvm_test;
 
     //  Group: Config
     my_tb_config tbcfg;
-    
+
 
     //  Group: Variables
     my_env m_env;
-    
+
 
     //  Group: Functions
 
@@ -52,7 +52,7 @@ class my_base_test extends uvm_test;
     extern virtual task shutdown_phase(uvm_phase phase);
     //  Function: run_phase
     extern virtual task run_phase(uvm_phase phase);
-    
+
 
     /*---  UVM Cleanup Phases          ---*/
     /*------------------------------------*/
@@ -60,7 +60,7 @@ class my_base_test extends uvm_test;
     extern virtual function void extract_phase(uvm_phase phase);
     //  Function: report_phase
     extern virtual function void report_phase(uvm_phase phase);
-    
+
 endclass: my_base_test
 
 
@@ -138,7 +138,20 @@ endtask: run_phase
 /*  UVM Cleanup Phases                                                        */
 /*----------------------------------------------------------------------------*/
 function void my_base_test::report_phase(uvm_phase phase);
+    uvm_report_server server;
+    int err_num;
+
     super.report_phase(phase);
+
+    server = get_report_server();
+    err_num = server.get_severity_count(UVM_ERROR);
+
+    // if (err_num == 0) begin
+    //     `uvm_info("TEST CASE PASS", "", UVM_LOW)
+    // end
+    // else begin
+    //     `uvm_error("TEST CASE FAIL", "")
+    // end
 endfunction: report_phase
 
 
