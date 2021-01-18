@@ -16,14 +16,14 @@ my $topname = glob './tb/*top.sv';
 
 sub main {
     foreach (@ARGV) {
-        if (/case(\d+)(..)?(\d+)?/) { 
+        if (/case(\d+)(..)?(\d+)?/) {
             if(!(defined($2) or defined($3))) { push @cases, $_; }
             else { foreach ($1..$3) {push @cases, "my_case".$_;} }
         }
         elsif (/dump_off/) { $dump_off = 1; }
         elsif (/cov/) { $cov = 1; }
         elsif (/verdi/) {$verdi_opt = 1;}
-        elsif (/help/) { &help; return; } 
+        elsif (/help/) { &help; return; }
         elsif (/seed/) {
             s/seed=//;
             $seed = $_;
@@ -37,7 +37,7 @@ sub main {
 
     foreach $case (@cases) {
         my $log = "./log/$case.log";
-        my $vcs_opt = $vcs."-ntb_opts uvm +UVM_TESTNAME=$case +UVM_OBJECTION_TRACE +define+UVM_NO_DEPRECATED +UVM_PHASE_TRACE -timescale=1ns/1ps +ntb_random_seed=$seed -l $log ";
+        my $vcs_opt = $vcs."-ntb_opts uvm +UVM_TESTNAME=$case +UVM_OBJECTION_TRACE +define+UVM_NO_DEPRECATED +UVM_PHASE_TRACE -timescale=1ns/1ps +ntb_random_seed=$seed -l $log -o simv/${case}_simv ";
         open my $casecfg, "<", "./tc/$case/$case.cfg" or die "open file $case.cfg:$!\n";
         while(<$casecfg>) {
             if (/vcs options/) {
@@ -60,7 +60,7 @@ sub main {
             }
             close $topfile;
             close $topfileorigin;
-        } 
+        }
 
         if ($cov == 1) {
             $vcs_opt .= "-cm_name RTL -cm_log ./log/cm.log ";
@@ -80,14 +80,14 @@ sub main {
         print "\n/*------------------------------------------------------------*/\n";
         print "    finish test $case\n";
         print "/*------------------------------------------------------------*/\n";
-    
+
         if ($dump_off == 0) {
             unlink $topname;
             rename $topname.".bak", $topname;
         }
         my $logfile;
         open $logfile, "<", $log or die "can not open $logfile:$!\n";
-        $case_fail{$case} = "pass"; 
+        $case_fail{$case} = "pass";
         while (<$logfile>) {
             if (/uvm_(?:error|fatal)\s*:\s*(\d+)|\d+\s*error/i and ($1 > 0)) {
                 $case_fail{$case} = "fail";
@@ -128,7 +128,7 @@ sub help {
     print "./scripts/sim.pl clear\n\n";
 }
 
-sub urg { 
+sub urg {
     system "urg -dir ./cov/my_case*.vdb -report ./cov/cov_rpt -format both -full64";
     system "firefox ./cov/cov_rpt/dashboard.html &";
 }

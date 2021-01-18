@@ -1,10 +1,10 @@
-vcs script version : I-2014.03
+vcs script version : L-2016.06
 machine name = docker 
 machine type = linux 
-machine os = Linux 4.4.0-142-generic  
-The FLEXlm host ID of this machine is "1c1b0d66635d"
-Compiler version = VCS-MX I-2014.03
-VCS Build Date = Feb 27 2014 20:47:09
+machine os = Linux 4.4.0-197-generic  
+The FLEXlm host ID of this machine is "1866daf9c8e8"
+Compiler version = VCS-MX L-2016.06
+VCS Build Date = May 24 2016 20:38:43
 Please Note:
 Not all the compile-time and runtime options described in this file
 work in VCS Basic. For a list of options that do not  work in 
@@ -12,6 +12,9 @@ VCS Basic, consult the VCS_Basic_Intro.pdf file.
 
 Compile-Time Options
 ********************
+-ad=<partition_filename>
+   Specifies the partition files used in mixed signal simulation.
+
 -ams
    Enables the use of Verilog-AMS code in VCS 2-step mode.
 
@@ -22,7 +25,7 @@ Compile-Time Options
    Provides the auto-inserted connect modules (AICMs) information in VCS 2-step mode.
 
 -as <assembler>
-   Specifies an alternative assembler. Only applicable in incremnetal
+   Specifies an alternative assembler. Only applicable in incremental
    compile mode, which is the default. Not supported on IBM RS/6000 AIX.
  
 -ASFLAGS <options>
@@ -38,9 +41,9 @@ Compile-Time Options
       Disables the dumping of SVA information in the VPD file.
 
    dve
-      Enbables SystemVerilog assertions tracing in the VPD file
+      Enables SystemVerilog assertions tracing in the VPD file
       that you load into DVE. This tracing enables you to see
-      asertion attempts.
+      assertion attempts.
 
    enable_diag
       Enables further control of SystemVerilog assertions result 
@@ -62,7 +65,7 @@ Compile-Time Options
    Stops after generating the intermediate C or assembly code.
  
 -cc <compiler>
-   Specifies and alternative C compiler. 
+   Specifies an alternative C compiler. 
  
 -CC <options>
    Works the same as -CFLAGS.
@@ -78,7 +81,7 @@ Compile-Time Options
    cond   Compile for condition coverage.
    fsm    Compile for FSM coverage.
    tgl    Compile for toggle coverage.
-   branch Compine for branch coverage
+   branch Compile for branch coverage
    assert Compile for SystemVerilog assertion coverage.
 
    If you want VCS to compile for more than one type of coverage,
@@ -200,7 +203,7 @@ Compile-Time Options
    a 1 or 0 value.
 
 -cm_pp [gui]|[batch]
-   Tells VCS to start cmView, it starts cmView n batch mode to write reports 
+   Tells VCS to start cmView, it starts cmView in batch mode to write reports 
    by default. 
 
    gui
@@ -235,14 +238,20 @@ Compile-Time Options
 -cpp
    Specifies a C++ compiler.
 
+-debug_access
+   Enables post-process debug.  Use'-debug_access+classdbg' for testbench debug,
+   and '-debug_access+all' for all debug capabilities.  Refer the VCS user
+   guide for more granular options for debug control under the switch
+   '-debug_access' and refer to '-debug_region' for region control."
+
+-debug_pp
+   Enables dumping to VPD and use of UCLI commands and DVE.
+
 -debug
    Enables the use of UCLI commands and DVE.
 
 -debug_all
    Enables the use of UCLI and DVE. Also enables line stepping.
-
--doc
-   Starts browser to display the HTML files for the VCS/VCSi documentation.
 
 -dve_opt <dve_option>
    You can use the argument called -dve_opt to pass DVE arguments from 
@@ -319,6 +328,12 @@ Compile-Time Options
    Specifies the number of processes to use for parallel compilation. 
    There is no space between the j character and the number.
 
+-kdb[=option]
+   Enables generating Verdi KDB database. The sub-options are as follows:
+
+   only
+      Generate Verdi KDB database only.
+
 -l <filename>
    (lower case L) Specifies a log file where VCS records compilation
    messages and runtime messages if you include the -R, -RI, or
@@ -331,10 +346,6 @@ Compile-Time Options
    Pass options to the linker.
    Only applicable in incremental compile mode.
 
--line
-   Enables stepping through the code and source line breakpoints in 
-   DVE.
- 
 -lmc-swift
    Enables the LMC SWIFT interface.
  
@@ -345,7 +356,7 @@ Compile-Time Options
    Links the <name> library to the resulting executable.
 
 -load <shared_VPI_library>:<registration_routine>
-   Specifiesthe registration routine in a shared library for a VPI 
+   Specifies the registration routine in a shared library for a VPI 
    application.
  
 -Marchive=<number_of_module_definitions>
@@ -359,6 +370,9 @@ Compile-Time Options
    command in the make file can't change the permissions on an old
    simv executable. This option replaces this command with the
    rm -f simv command in the make file.
+
+-mhdl
+   Enables VCS MX - Mixed HDL simulation.
  
 -Mlib=<directory>
    Specifies the directory where VCS looks for descriptor information
@@ -370,8 +384,8 @@ Compile-Time Options
    Program used to make object (default is make). 
  
 -Mupdate[=0]
-   By default VCS overwritesthe Makefile between compilations. If you
-   wish to preservethe Makefile between compilations, enter this
+   By default VCS overwrites the Makefile between compilations. If you
+   wish to preserve the Makefile between compilations, enter this
    option with the 0 argument.
    Entering this argument without the 0 argument, specifies the 
    the default condition, incremental compilation and updating the
@@ -564,10 +578,6 @@ Compile-Time Options
    executable file. You can add any runtime option to the vcs command
    line.
  
--s
-   Stop simulation just as it begins. Use this option with the -R and
-   +cli options.
-
 -sim_res=<time_precision>
    Defines simulation resolution. It also defines timescales for
    modules which don't have timescales after analysis.
@@ -578,7 +588,7 @@ Compile-Time Options
 
 -sysc
    Tells VCS to look in the ./csrc directory for the subdirectories
-   containg the wrapper and interface files neded by the VCS/SystemC
+   containing the wrapper and interface files needed by the VCS/SystemC
    cosimulation interface to connect the Verilog and SystemC parts
    of a mixed Verilog and SystemC design.
  
@@ -595,10 +605,6 @@ Compile-Time Options
 
 -ucli
    Specifies UCLI mode at runtime.
-
--use_vpiobj
-   Used to specify the vpi_user.c file that enables you to user the
-   vpi_register_systf VPI access routine.
 
 -V
    Enables the verbose mode.
@@ -623,17 +629,6 @@ Compile-Time Options
 -y <directory_pathname>
    Specifies a Verilog library directory to search for module
    definitions.
-
-+acc+1|2|3|4
-   Old style method to enable PLI ACC capabilities for the entire design.
-   1 enables all capabilities but breakpoints and delay annotation.
-   2 enables what 1 enables plus breakpoints on value changes of nets and 
-     registers.
-   3 enables what 2 enables plus module path delay annotation.
-   4 enables what 3 enables plus gate delay annotation.
-
-+ad=<partition_filename>
-   Specifies the partition files used in mixed signal simulation.
 
 +allmtm
    Allows you to specify at runtime which values in min:typ:max delay 
@@ -669,21 +664,6 @@ Compile-Time Options
    Enables charge decay in trireg nets. Charge decay will not work
    if you connect the trireg to a transistor (bidirectional pass)
    switch such as tran, rtran, tranif1, or rtranif0.
-
-+cli+[<module_name>=]1|2|3|4
-   Enable CLI debugging.
-   1 enables you to see the values of nets and registers and deposit 
-     values to registers.
-   2 also enables breakpoints on value changes of nets and registers.
-   3 also enables you to force a value on nets.
-   4 also enables you to force a value on a register.
-   You can specify a module to enable CLI debugging only for instances 
-   of the module.
-
-+cliedit
-   Enables you to use the UNIX GNU command line editing interface for 
-   entering CLI commands. See the VCS/VCSi User Guide for download and
-   setup information.
 
 +csdf+precompile
    Precompiles your SDF file into a format that is for VCS to parse 
@@ -785,10 +765,6 @@ Compile-Time Options
      that needs to use value change callbacks on memories or MDAs. 
      APIs like acc_add_callback, vcsd_add_callback, and vpi_register_cb 
      need this option if these APIs are used on memories or MDAs.
-
-+memopt
-   Applies optimizations to reduce memory. For more information see the
-   VCS/VCSi User Guide.
 
 +mindelays
    Use minimum value when min:typ:max values are encountered in delay 
@@ -916,16 +892,16 @@ Compile-Time Options
 +putprotect+<target_dir>
    Specifies the target directory for protected files.
 
-+race
+-race
    Specifies that VCS generate a report, during simulation, of all the 
    race conditions in the design and write this report in the race.out 
    file.
 
-+race=all
+-race=all
    Analyzes the source code during compilation to look for coding 
    styles that cause race conditions.
 
-+racecd
+-racecd
    Specifies that VCS generate a report, during simulation, of the race 
    conditions in the design between the `race and `endrace compiler 
    directives and write this report in the race.out file.
@@ -1126,7 +1102,7 @@ Runtime Options
       coverage.
 
    nopostproc
-      Disables the display of thw SVA coverage summary at the end of
+      Disables the display of the SVA coverage summary at the end of
       simulation.
 
    quiet0|1
@@ -1148,7 +1124,7 @@ Runtime Options
    verbose
       Adds more information to the report specified by the 
       report=<filename> keyword, including assertions that never 
-      triggered and attemts that did not finish, and a summary with 
+      triggered and attempts that did not finish, and a summary with 
       the number of assertions present, attempted, and failed.
 
    You can enter more than one keyword, using the plus + separator, for 
@@ -1201,9 +1177,10 @@ Runtime Options
    Sets the name of the $gr_waves output file to the specified file.
    The default filename is grw.dump. 
 
--gui
-   Starts the Discovery Visual Environment (DVE) graphical user 
-   interface.
+-gui[=<dve|verdi>]
+   Starts user specified graphical user interface. If no argument is
+   given, VCS will start Verdi when a valid VC_HOME environment
+   variable is detected. Otherwise DVE will be started by default.
 
 -i <filename>
    Specifies a file containing CLI commands that VCS executes when 
@@ -1258,7 +1235,7 @@ Runtime Options
    simulation.
    If you just specify a name the alternatively named files will be in the 
    default directories. If you specify a pathname, with an  argument 
-   containing the slash charcter /, you specify a different location and 
+   containing the slash character /, you specify a different location and 
    name for these files, for example:
 
    -ova_name /net/design1/ova/run2
@@ -1316,6 +1293,12 @@ Runtime Options
    The default filename is verilog.dump.
    A $dumpfile system task in the Verilog source code will override 
    this option.
+
+-verdi
+   Starts the Verdi graphical user interface. 
+
+-verdi_opts
+   Pass runtime options to verdi gui.
 
 +vcdfile+<filename>
    Specifies the VCD file you want to use for post-processing.
@@ -1438,7 +1421,7 @@ Runtime Options
    +override_model_delays runtime option.
 
 +vcs+dumparrays
-   Enables dumping memory and multi-dimesional array values in the
+   Enables dumping memory and multi-dimensional array values in the
    VCD file. You must also have use the +memcbk compile-time option.
 
 +vcs+dumpoff+<t>+<ht>
@@ -1527,57 +1510,50 @@ Runtime Options
 Options for Specifying How VCS Writes the VPD File
 **************************************************
 
-+vpdfile+<filename>
-   At runtime, defines an alternative name of the VPD file that VCS
-   writes instead of the default name vcdplus.vpd.
-
-+vpdfileswitchsize+<number_in_MB>
-   Specifies a size for the VPD file. When the VPD file reaches this
-   size, VCS closes the VPD file and opens a new one with the same
-   design hierarchy as the previous VPD file. There is a number suffix
-   added to the VPD file name to differentiate them.
-
 -PP
    Enables you to enter in your Verilog source code system tasks like 
    $vcdpluson to create a VPD file during simulation. This option 
    minimizes net data details for faster post-processing. 
 
-+vpdbufsize+<MB>
+-vpd_file <filename>
+   At runtime, defines an alternative name of the VPD file that VCS
+   writes instead of the default name vcdplus.vpd.
+
+-vpd_fileswitchsize <number_in_MB>
+   Specifies a size for the VPD file. When the VPD file reaches this
+   size, VCS closes the VPD file and opens a new one with the same
+   design hierarchy as the previous VPD file. There is a number suffix
+   added to the VPD file name to differentiate them.
+
+-vpd_bufsize <MB>
    VCS uses an internal buffer to store value changes before it writes 
    them to the VPD file on disk. VCS makes this buffer size either 5 
    MB or large enough to record 15 value changes for all nets and 
-   registers in your design, which ever is larger. 
+   registers in your design, whichever is larger. 
    You can use this option to override the buffer size that VCS 
    calculates for the buffer size. You specify a buffer size in 
    megabytes.
 
-+vpddrivers
-   Tells VCS to record the values of all the drivers of all the nets.
-
-+vpdfilesize+<MB>
+-vpd_filesize <MB>
    Specifies the maximum size of the VPD file. When VCS reaches this 
    limit, VCS overwrites the oldest simulation history data in the file 
    with the newest.
+
+-vpd_noupdate
+  Turn file locking off when writing the VPD file.  By default file locking is
+  enabled allowing DVE to read the VPD file while the simulation is still
+  running. 
+
+-vpd_compression low|medium|high
+   Use different algorithms to compress the data in VPD files. 
+
++vpdnocompress
+   Disables the compression of data in VPD files.
 
 +vpdignore
    Tells VCS to ignore $vcdplus system tasks so VCS does not write a 
    VPD file.
 
-+vpdports
-   Tells VCS to record, in the VPD file, the port direction of signals 
-   that are ports.
-
-+vpdnocompress
-   Disables the automatic compressing of the data in VPD files.
-
-+vpdupdate
-   If VCS is writing a VPD file during simulation, this option enables 
-   you to have VCS halt writing to the VPD file while the simulation 
-   is running and so that you can view the recorded results in DVE.
-   This option enables you to use the update feature in DVE.
-
-+vpdnostrengths
-   Disables recording strength information in the VPD file.
 
 Options For Calling The vcd2vpd and vpd2vcd Utilities
 *****************************************************
@@ -1604,6 +1580,13 @@ LM_LICENSE_FILE
 
 PATH
    On UNIX add $VCS_HOME/bin to this environment variable. 
+
+SNPS_SIM_DEFAULT_GUI
+   Specifies the default graphical user interface. This environment
+   variable overrides option -gui without "=<dve|verdi>".
+
+VC_HOME
+   Specifies the directory where you installed Verification Compiler.
 
 VCS_HOME
    Specifies the directory where you installed VCS.
@@ -1634,5 +1617,3 @@ VCS_WARNING_ATSTAR
    Specifies the number of signals in a Verilog-2001 implicit sensitivity
    list that must be exceeded before VCS displays a warning. The default
    limit is 100 signals.
-
-PDF files for the VCS documentation set are in $VCS_HOME/doc/UserGuide. 

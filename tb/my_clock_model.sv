@@ -17,9 +17,9 @@ module my_clock_model
         output logic clk,
         output logic rst_n
     );
-    
+
     initial begin
-        rst_n = 1'b0;
+        rst_n <= 1'b0; //async reset use <=, sync reset use =;
         #1000 rst_n = 1'b1;
     end
 
@@ -27,7 +27,7 @@ module my_clock_model
         clk <= 1'b0;
         forever #(`PERIOD/2) clk = ~clk;
     end
-    
+
 endmodule: my_clock_model
 
 
