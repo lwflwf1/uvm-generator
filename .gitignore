@@ -10,3 +10,4 @@ csrc/
 cov/
 *code-workspace*
 simv/
+*.txt

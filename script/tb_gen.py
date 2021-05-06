@@ -9,6 +9,13 @@ from datetime import date
 import os
 import sys
 
+def initDirectory():
+    dirs = ['common', 'cov', 'doc', 'filelist', 'fsdb', 'log', 'rtl', 'script',
+            'simv', 'tb', 'tc']
+    for dir in dirs:
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+
 
 def filelist_gen(cfg):
     def sort_key_for_filelist(f):
@@ -485,6 +492,7 @@ def case1_gen(cfg):
 
 
 def main():
+    initDirectory()
     cfg = parse_cfg('./common/tbcfg.json')
 
     for comp in ['agent', 'monitor', 'driver', 'sequencer']:
